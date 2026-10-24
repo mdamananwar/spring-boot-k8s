@@ -1,0 +1,21 @@
+apiVersion : apps/v1
+kind: Deployment #should be service when u are defining service file
+metadata:
+  name: trial-k8s #This is the Kubernetes Deployment's name,need not match the application name
+spec:
+  replicas: 3 #number of pods that will be created for this deployment
+  #this is not the backup pod,The 3 Pods are all intended to be running simultaneously.
+  selector:
+    matchLabels:
+      app: trial-k8s #labels have to be consistent throughout
+  template:
+    metadata:
+      labels:
+        app: trial-k8s #labels have to be consistent throughout
+    spec:
+      containers:
+        - name: trial-k8s
+          image: spring-boot-fresh:latest #this has to match with the docker image created
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080 #container will run at this port in the cluster
